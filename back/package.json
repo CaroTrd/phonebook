@@ -1,0 +1,23 @@
+{
+  "name": "phonebook",
+  "version": "1.0.0",
+  "description": "provides a phonebook",
+  "scripts": {
+    "phonebook": "server.js",
+    "start": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CaroTrd/phonebook.git"
+  },
+  "author": "Carolina Tirado",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5"
+  },
+  "bugs": {
+    "url": "https://github.com/CaroTrd/phonebook/issues"
+  },
+  "homepage": "https://github.com/CaroTrd/phonebook#readme"
+}
