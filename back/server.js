@@ -3,7 +3,6 @@ var cors = require("cors");
 const app = express();
 var server = require('http').createServer(app);
 const PORT = 8082;
-
 app.use(cors());
 
 app.use("/", function(req, res) {
