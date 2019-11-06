@@ -154,6 +154,7 @@ class FormUpdateNumber extends Component {
   }
 }
 
+// the value is in this component
 const mapStateToProps = state => {
   return {
     contacts: state.contacts
@@ -162,6 +163,7 @@ const mapStateToProps = state => {
 
 export default withRouter(
   connect(
+    // to follow the change in the store
     mapStateToProps,
     null
   )(FormUpdateNumber)
