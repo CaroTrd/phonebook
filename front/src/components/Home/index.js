@@ -3,7 +3,6 @@ import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { saveContacts } from "../../actions/contacts.action";
-import "./index.css";
 
 class Home extends Component {
   // to initialize state
