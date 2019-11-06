@@ -24,6 +24,6 @@ CREATE TABLE contact (
   contact_id int(11) NOT NULL AUTO_INCREMENT,
   firstname varchar(150) NOT NULL,
   last_name varchar(150) NOT NULL,
-  phone varchar(14) NOT NULL,
+  phone varchar(20) NOT NULL,
   PRIMARY KEY (contact_id)
 ); 

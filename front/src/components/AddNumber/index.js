@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
+import Popup from "../Popup/index";
 
 class FormAddNumber extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class FormAddNumber extends Component {
         boolFirst: false,
         boolLast: false,
         boolPhone: false
-      }
+      },
+      message: ""
     };
   }
 
@@ -112,11 +114,13 @@ class FormAddNumber extends Component {
       })
     }).then(res => {
       if (res.status === 200) {
-        window.confirm("Votre contact a bien été enregistré");
+        this.setState({ message: "Votre contact a bien été enregistré" });
+        this.setState({ isOpen: true });
       } else if (res.status === 500) {
-        window.confirm(
-          "Nous avons rencontré un problème lors de la sauvegarde."
-        );
+        this.setState({
+          message: "Nous avons rencontré un problème lors de la sauvegarde."
+        });
+        this.setState({ isOpen: true });
       }
     });
   };
@@ -129,35 +133,48 @@ class FormAddNumber extends Component {
       this.state.boolContact.boolPhone === true;
     return (
       <div>
-        <ul>
-          <li>
-            <input
-              type="text"
-              placeholder="Firstname"
-              onChange={e => this.handleFirstnameChange(e)}
+        <div className="container-form-link">
+          <NavLink className="link-add" to="/">
+            {`> Back to the home page`}
+          </NavLink>
+        </div>
+        <nav className="container-form-nav">
+          <ul className="form-nav">
+            <li>
+              <input
+                type="text"
+                placeholder="Firstname"
+                onChange={e => this.handleFirstnameChange(e)}
+                className="input-form"
+              />
+              {errorContact.errorFirstname}
+            </li>
+            <li>
+              <input
+                type="text"
+                placeholder="Last name"
+                onChange={e => this.handleLastNameChange(e)}
+                className="input-form"
+              />
+              {errorContact.errorLastName}
+            </li>
+            <li>
+              <input
+                type="tel"
+                placeholder="Phone Number"
+                onChange={e => this.handleTelNumberChange(e)}
+                className="input-form"
+              />
+              {errorContact.errorPhone}
+            </li>
+            <Popup
+              nameOpenPopupBtn="Save"
+              handleSubmitFetch={() => this.handleSubmit()}
+              messageFetch={this.state.message}
+              disabled={!buttonBool}
             />
-            {errorContact.errorFirstname}
-          </li>
-          <li>
-            <input
-              type="text"
-              placeholder="Last name"
-              onChange={e => this.handleLastNameChange(e)}
-            />
-            {errorContact.errorLastName}
-          </li>
-          <li>
-            <input
-              type="tel"
-              placeholder="Phone Number"
-              onChange={e => this.handleTelNumberChange(e)}
-            />
-            {errorContact.errorPhone}
-          </li>
-          <button onClick={this.handleSubmit} disabled={!buttonBool}>
-            Click
-          </button>
-        </ul>
+          </ul>
+        </nav>
       </div>
     );
   }
