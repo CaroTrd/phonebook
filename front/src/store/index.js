@@ -1,8 +1,10 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import contacts from '../reducers/contacts.reducer';
 
+// to update the store
 const rootReducer = combineReducers({
-
+  contacts
 })
 
 const composeEnhancers =

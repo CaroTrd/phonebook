@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { saveContacts } from "../../actions/contacts.action";
 import "./index.css";
 
 class Home extends Component {
@@ -18,6 +20,8 @@ class Home extends Component {
     const response = await fetch("/api/contacts");
     const data = await response.json();
     this.setState({ data: data });
+    // to dispatch the data by the action 
+    this.props.saveContacts(data);
   };
 
   // instantiate the network request with the function getData after the component is mounted
@@ -90,11 +94,16 @@ class Home extends Component {
   }
 }
 
+const mapDispatchToProps = dispatch => {
+  // to distribute the action in the store and the reducers
+  return bindActionCreators({ saveContacts }, dispatch);
+};
 
-// Access to the component Home and can direct the user to the path indicated in the NavLink
+//  withRouter() Access to the component Home and can direct the user to the path indicated in the NavLink
+// connect(): to connect the component to the store
 export default withRouter(
   connect(
     null,
-    null
+    mapDispatchToProps
   )(Home)
 );
