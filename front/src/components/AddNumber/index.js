@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 
 class FormAddNumber extends Component {
   constructor(props) {
@@ -84,7 +85,9 @@ class FormAddNumber extends Component {
         }
       });
       this.setState({ boolContact: { ...boolContact, boolPhone: false } });
-    } else if (!/^((\+)[0-9]{2,3}[ ][0-9]{2}[ ])[1-9]{6,}$/gi.test(e.target.value)) {
+    } else if (
+      !/^((\+)[0-9]{2,3}[ ][0-9]{2}[ ])[1-9]{6,}$/gi.test(e.target.value)
+    ) {
       this.setState({
         errorContact: {
           ...errorContact,
@@ -119,7 +122,7 @@ class FormAddNumber extends Component {
   };
   render() {
     const { errorContact } = this.state;
-    // variable to store a boolean depending on the condition. The value of the response must be false to make the button clickable 
+    // variable to store a boolean depending on the condition. The value of the response must be false to make the button clickable
     const buttonBool =
       this.state.boolContact.boolFirst === true &&
       this.state.boolContact.boolLast === true &&
@@ -160,4 +163,4 @@ class FormAddNumber extends Component {
   }
 }
 
-export default FormAddNumber;
+export default withRouter(FormAddNumber);
