@@ -63,7 +63,7 @@ class Home extends Component {
             </tr>
           </thead>
           <tbody className="table-body">
-            {data
+            {search === "" ? <tr></tr> : data
               .filter(select => {
                 let name = `${select.last_name} ${select.firstname}`;
                 return (
