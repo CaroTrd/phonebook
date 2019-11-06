@@ -99,7 +99,23 @@ class FormAddNumber extends Component {
   };
 
   handleSubmit = () => {
-    
+    fetch("/api/add-new-contact", {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        contact: this.state.contact
+      })
+    }).then(res => {
+      if (res.status === 200) {
+        window.confirm("Votre contact a bien été enregistré");
+      } else if (res.status === 500) {
+        window.confirm(
+          "Nous avons rencontré un problème lors de la sauvegarde."
+        );
+      }
+    });
   };
   render() {
     const { errorContact } = this.state;
