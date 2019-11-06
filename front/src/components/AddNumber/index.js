@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
+import Popup from "../Popup/index";
 
 class FormAddNumber extends Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class FormAddNumber extends Component {
         boolFirst: false,
         boolLast: false,
         boolPhone: false
-      }
+      },
+      message: "",
     };
   }
 
@@ -112,11 +114,13 @@ class FormAddNumber extends Component {
       })
     }).then(res => {
       if (res.status === 200) {
-        window.confirm("Votre contact a bien été enregistré");
+        this.setState({ message: "Votre contact a bien été enregistré" });
+        this.setState({ isOpen: true });
       } else if (res.status === 500) {
-        window.confirm(
-          "Nous avons rencontré un problème lors de la sauvegarde."
-        );
+        this.setState({
+          message: "Nous avons rencontré un problème lors de la sauvegarde."
+        });
+        this.setState({ isOpen: true });
       }
     });
   };
@@ -154,9 +158,12 @@ class FormAddNumber extends Component {
             />
             {errorContact.errorPhone}
           </li>
-          <button onClick={this.handleSubmit} disabled={!buttonBool}>
-            Click
-          </button>
+          <Popup
+            nameOpenPopupBtn="Save"
+            handleSubmitFetch={() => this.handleSubmit()}
+            messageFetch={this.state.message}
+            disabled={!buttonBool}
+          />
         </ul>
       </div>
     );

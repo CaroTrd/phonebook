@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import Popup from "../Popup/index";
 
 class FormUpdateNumber extends Component {
   constructor(props) {
@@ -10,20 +11,24 @@ class FormUpdateNumber extends Component {
       contact: {
         firstname: "",
         lastName: "",
-        phone: ""
+        phone: "",
+        id: 0
       },
       errorContact: {
         errorFirstname: "",
         errorLastName: "",
         errorPhone: ""
-      }
+      },
+      message: ""
     };
   }
 
-  handleFirstnameChange = e => {
+  handleFirstnameChange = (e, id) => {
     // regex to check the input format of the user line 37, line 62 and line 87
     const { contact, errorContact } = this.state;
-    this.setState({ contact: { ...contact, firstname: e.target.value } });
+    this.setState({
+      contact: { ...contact, firstname: e.target.value, id: id }
+    });
     if (e.target.value.trim() === "") {
       this.setState({
         errorContact: {
@@ -43,9 +48,11 @@ class FormUpdateNumber extends Component {
     }
   };
 
-  handleLastNameChange = e => {
+  handleLastNameChange = (e, id) => {
     const { contact, errorContact } = this.state;
-    this.setState({ contact: { ...contact, lastName: e.target.value } });
+    this.setState({
+      contact: { ...contact, lastName: e.target.value, id: id }
+    });
     if (e.target.value.trim() === "") {
       this.setState({
         errorContact: {
@@ -65,9 +72,9 @@ class FormUpdateNumber extends Component {
     }
   };
 
-  handleTelNumberChange = e => {
+  handleTelNumberChange = (e, id) => {
     const { contact, errorContact } = this.state;
-    this.setState({ contact: { ...contact, phone: e.target.value } });
+    this.setState({ contact: { ...contact, phone: e.target.value, id: id } });
     if (e.target.value.trim() === "") {
       this.setState({
         errorContact: {
@@ -96,16 +103,17 @@ class FormUpdateNumber extends Component {
         "Content-Type": "application/json"
       }),
       body: JSON.stringify({
-        contact_id: id,
         contact: this.state.contact
       })
     }).then(res => {
       if (res.status === 200) {
-        window.confirm("Votre contact a bien été enregistré");
+        this.setState({ message: "Votre contact a bien été enregistré" });
+        this.setState({ isOpen: true });
       } else if (res.status === 500) {
-        window.confirm(
-          "Nous avons rencontré un problème lors de la sauvegarde."
-        );
+        this.setState({
+          message: "Nous avons rencontré un problème lors de la sauvegarde."
+        });
+        this.setState({ isOpen: true });
       }
     });
   };
@@ -119,12 +127,12 @@ class FormUpdateNumber extends Component {
       })
       .map((person, index) => {
         return (
-          <ul key={index || person.contact_id}>
+          <ul key={person.contact_id}>
             <li>
               <input
                 type="tel"
                 placeholder={person.firstname}
-                onChange={e => this.handleFirstnameChange(e)}
+                onChange={e => this.handleFirstnameChange(e, person.contact_id)}
               />
               {errorContact.errorFirstname}
             </li>
@@ -132,7 +140,7 @@ class FormUpdateNumber extends Component {
               <input
                 type="text"
                 placeholder={person.last_name}
-                onChange={e => this.handleLastNameChange(e)}
+                onChange={e => this.handleLastNameChange(e, person.contact_id)}
               />
               {errorContact.errorLastName}
             </li>
@@ -140,17 +148,23 @@ class FormUpdateNumber extends Component {
               <input
                 type="tel"
                 placeholder={person.phone}
-                onChange={e => this.handleTelNumberChange(e)}
+                onChange={e => this.handleTelNumberChange(e, person.contact_id)}
               />
               {errorContact.errorPhone}
             </li>
-            <button onClick={() => this.handleSubmit(person.contact_id)}>
-              Click
-            </button>
           </ul>
         );
       });
-    return <div>{displayNumber}</div>;
+    return (
+      <div>
+        {displayNumber}
+        <Popup
+          nameOpenPopupBtn="Save"
+          handleSubmitFetch={() => this.handleSubmit()}
+          messageFetch={this.state.message}
+        />
+      </div>
+    );
   }
 }
 

@@ -33,7 +33,7 @@ formRoutes.post("/add-new-contact", function(req, res) {
   if (req.body.contact.lastName !== "") {
     lastName = req.body.contact.lastName;
   }
-  if (req.body.contact.phone.match(/^((\+)39[ ]02[ ])[1-9]{7}$/)) {
+  if (req.body.contact.phone.match(/^((\+)[0-9]{2,3}[ ][0-9]{2}[ ])[1-9]{6,}$/)) {
     phone = req.body.contact.phone;
   } else {
     res.status(500);
@@ -65,7 +65,7 @@ formRoutes.put("/edit-contact", function(req, res) {
     requestBody.push(`last_name="${req.body.contact.lastName}"`);
   }
   if (
-    req.body.contact.phone.match(/^((\+)39[ ]02[ ])[1-9]{7}$/) ||
+    req.body.contact.phone.match(/^((\+)[0-9]{2,3}[ ][0-9]{2}[ ])[1-9]{6,}$/) ||
     req.body.contact.phone !== ""
   ) {
     requestBody.push(`phone="${req.body.contact.phone}"`);
@@ -73,9 +73,9 @@ formRoutes.put("/edit-contact", function(req, res) {
 
   // to convert array to string and return the results
   connection.query(
-    `UPDATE contact SET ${requestBody.toString()} WHERE contact_id=${
-      req.body.contact_id
-    }`,
+    `UPDATE contact SET ${requestBody.toString()} WHERE contact_id="${
+      req.body.contact.id
+    }"`,
     async function(err, results) {
       if (err) {
         console.log(err);
