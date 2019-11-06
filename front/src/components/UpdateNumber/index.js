@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import Popup from "../Popup/index";
 
@@ -96,7 +96,7 @@ class FormUpdateNumber extends Component {
     }
   };
 
-  handleSubmit = id => {
+  handleSubmit = () => {
     fetch("/api/edit-contact", {
       method: "PUT",
       headers: new Headers({
@@ -127,12 +127,13 @@ class FormUpdateNumber extends Component {
       })
       .map((person, index) => {
         return (
-          <ul key={person.contact_id}>
+          <ul key={person.contact_id} className="form-nav">
             <li>
               <input
                 type="tel"
                 placeholder={person.firstname}
                 onChange={e => this.handleFirstnameChange(e, person.contact_id)}
+                className="input-form"
               />
               {errorContact.errorFirstname}
             </li>
@@ -141,6 +142,7 @@ class FormUpdateNumber extends Component {
                 type="text"
                 placeholder={person.last_name}
                 onChange={e => this.handleLastNameChange(e, person.contact_id)}
+                className="input-form"
               />
               {errorContact.errorLastName}
             </li>
@@ -149,6 +151,7 @@ class FormUpdateNumber extends Component {
                 type="tel"
                 placeholder={person.phone}
                 onChange={e => this.handleTelNumberChange(e, person.contact_id)}
+                className="input-form"
               />
               {errorContact.errorPhone}
             </li>
@@ -157,7 +160,12 @@ class FormUpdateNumber extends Component {
       });
     return (
       <div>
-        {displayNumber}
+        <div className="container-form-link">
+          <NavLink className="link-add" to="/">
+            {`> Back to the home page`}
+          </NavLink>
+        </div>
+        <nav className="container-form-nav">{displayNumber}</nav>
         <Popup
           nameOpenPopupBtn="Save"
           handleSubmitFetch={() => this.handleSubmit()}
