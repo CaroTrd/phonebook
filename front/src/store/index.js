@@ -11,6 +11,7 @@ const composeEnhancers =
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({}) : compose;
 
 const enhancer = composeEnhancers(
+  // to dispatch in function and not in action
   applyMiddleware(thunk),
   // other store enhancers if any
 );
