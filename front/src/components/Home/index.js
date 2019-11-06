@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { NavLink, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import "./index.css";
 
 class Home extends Component {
@@ -89,5 +90,11 @@ class Home extends Component {
   }
 }
 
+
 // Access to the component Home and can direct the user to the path indicated in the NavLink
-export default withRouter(Home);
+export default withRouter(
+  connect(
+    null,
+    null
+  )(Home)
+);
