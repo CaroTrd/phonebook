@@ -1,18 +1,28 @@
+// to start a web server
 const express = require("express");
-var cors = require("cors");
 const app = express();
-var server = require('http').createServer(app);
+// create the server by the node's HTTP servers to handle requests
+var server = require("http").createServer(app);
 const PORT = 8082;
 
-app.use(cors());
+const bodyParser = require("body-parser");
+const formRoutes = require("./api/form/index");
 
-app.use("/", function(req, res) {
-  res.setHeader("Content-Type", "text/plain");
-  res.send("Vous êtes à l'accueil");
-});
+//support parsing of application/json type post data
+app.use(bodyParser.json());
 
-server.listen(PORT, "localhost", function() {
-  console.log(
-    `Listening on port ${server.address().port}: ${server.address().address}`
-  );
+////support parsing of application/x-www-form-urlencoded post data
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.use("/api", formRoutes);
+
+// Starts the http server listening for connection
+server.listen(PORT, "localhost", function(err) {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(
+      `🌎  Listening at http://${server.address().address}:${server.address().port}`
+    );
+  }
 });
